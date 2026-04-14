@@ -1,4 +1,5 @@
 import { useScrollReveal } from "@/hooks/useScrollReveal";
+import banner from "@/assets/banner.png";
 
 const topics = ["RAG", "Agents", "Chunking", "Evaluation", "Vector DB", "Embeddings"];
 
@@ -58,37 +59,11 @@ const HeroSection = () => {
               isVisible ? "animate-fade-up [animation-delay:200ms]" : "opacity-0"
             }`}
           >
-            {/* Central glow */}
-            <div className="absolute w-48 h-48 rounded-full bg-primary/20 blur-[60px] animate-pulse-glow" />
-            <div className="absolute w-32 h-32 rounded-full border border-primary/20 animate-[spin_20s_linear_infinite]" />
-            <div className="absolute w-56 h-56 rounded-full border border-primary/10 animate-[spin_30s_linear_infinite_reverse]" />
-            <div className="absolute w-72 h-72 rounded-full border border-primary/5" />
-
-            {/* Orbiting chips */}
-            {topics.map((topic, i) => (
-              <div
-                key={topic}
-                className="absolute animate-float"
-                style={{
-                  top: `${20 + Math.sin((i * Math.PI * 2) / topics.length) * 35}%`,
-                  left: `${50 + Math.cos((i * Math.PI * 2) / topics.length) * 35}%`,
-                  animationDelay: `${i * 0.5}s`,
-                  transform: "translate(-50%, -50%)",
-                }}
-              >
-                <span className="px-3 py-1.5 text-xs font-medium rounded-full bg-card border border-border text-primary glow-card whitespace-nowrap">
-                  {topic}
-                </span>
-              </div>
-            ))}
-
-            {/* Center icon */}
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary/30 to-accent/20 flex items-center justify-center border border-primary/20 glow-primary">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="hsl(187,80%,52%)" strokeWidth="1.5">
-                <circle cx="12" cy="12" r="3" />
-                <path d="M12 2v4M12 18v4M2 12h4M18 12h4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
-              </svg>
-            </div>
+            <img
+              src={banner}
+              alt="NeuraArch — Architecting Intelligent Systems"
+              className="w-full h-auto rounded-2xl object-contain max-h-[450px]"
+            />
           </div>
         </div>
       </div>
