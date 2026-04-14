@@ -1,3 +1,5 @@
+import logo from "@/assets/logo.png";
+
 const links = [
   { label: "About", href: "#" },
   { label: "Blog", href: "#" },
@@ -17,9 +19,8 @@ const Footer = () => (
   <footer className="border-t border-border py-12">
     <div className="container mx-auto px-4 md:px-6">
       <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-        <a href="#" className="font-heading text-lg font-bold">
-          <span className="text-gradient-primary">Neura</span>
-          <span className="text-foreground">Arch</span>
+        <a href="#" className="flex items-center">
+          <img src={logo} alt="NeuraArch" className="h-8" />
         </a>
         <nav className="flex flex-wrap justify-center gap-6">
           {links.map((l) => (
