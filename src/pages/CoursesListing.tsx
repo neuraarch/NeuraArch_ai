@@ -1,17 +1,37 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CourseCard from "@/components/courses/CourseCard";
 import TagChip from "@/components/content/TagChip";
-import { courses } from "@/data/coursesData";
+import { useCourses } from "@/hooks/useSupabaseQueries";
+import { courses as mockCourses } from "@/data/coursesData";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
-
-const allTags = Array.from(new Set(courses.flatMap((c) => c.tags)));
 
 const CoursesListing = () => {
   const [activeTag, setActiveTag] = useState<string | null>(null);
   const { ref, isVisible } = useScrollReveal();
+  const { data: dbCourses } = useCourses();
 
+  const courses = useMemo(() => {
+    if (dbCourses && dbCourses.length > 0) {
+      return dbCourses.map((c) => ({
+        slug: c.slug,
+        title: c.title,
+        description: c.description || "",
+        tags: [] as string[],
+        status: (c.status === "coming_soon" ? "coming-soon" : c.status) as any,
+        modules: (c.course_modules || [])
+          .sort((a, b) => a.sort_order - b.sort_order)
+          .map((m) => ({ title: m.title, description: m.description || "" })),
+        learnings: [],
+        audience: [],
+        instructor: { name: "NeuraArch Team", role: "AI Systems Architects", bio: "" },
+      }));
+    }
+    return mockCourses;
+  }, [dbCourses]);
+
+  const allTags = Array.from(new Set(courses.flatMap((c) => c.tags)));
   const filtered = activeTag ? courses.filter((c) => c.tags.includes(activeTag)) : courses;
 
   return (
@@ -28,12 +48,14 @@ const CoursesListing = () => {
             </p>
           </div>
 
-          <div className="flex flex-wrap gap-2 mb-10">
-            <TagChip tag="All" active={!activeTag} onClick={() => setActiveTag(null)} />
-            {allTags.map((tag) => (
-              <TagChip key={tag} tag={tag} active={activeTag === tag} onClick={() => setActiveTag(tag)} />
-            ))}
-          </div>
+          {allTags.length > 0 && (
+            <div className="flex flex-wrap gap-2 mb-10">
+              <TagChip tag="All" active={!activeTag} onClick={() => setActiveTag(null)} />
+              {allTags.map((tag) => (
+                <TagChip key={tag} tag={tag} active={activeTag === tag} onClick={() => setActiveTag(tag)} />
+              ))}
+            </div>
+          )}
 
           <div className="grid md:grid-cols-2 gap-6">
             {filtered.map((course, i) => (
