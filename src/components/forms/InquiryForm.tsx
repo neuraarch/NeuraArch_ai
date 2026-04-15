@@ -1,15 +1,28 @@
 import { useState } from "react";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 const InquiryForm = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name.trim() || !email.trim() || !message.trim()) return;
+    setLoading(true);
+    const { error } = await supabase.from("inquiries").insert({
+      name: name.trim(),
+      email: email.trim(),
+      message: message.trim(),
+    });
+    setLoading(false);
+    if (error) {
+      toast.error("Something went wrong", { description: error.message });
+      return;
+    }
     setSubmitted(true);
     toast.success("Inquiry sent!", { description: "We'll get back to you soon." });
   };
@@ -34,9 +47,9 @@ const InquiryForm = () => {
         className="w-full px-4 py-3 rounded-lg bg-card border border-border text-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-shadow" />
       <textarea placeholder="Your message..." value={message} onChange={(e) => setMessage(e.target.value)} required rows={4}
         className="w-full px-4 py-3 rounded-lg bg-card border border-border text-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-shadow resize-none" />
-      <button type="submit"
-        className="w-full px-6 py-3 rounded-lg bg-accent text-accent-foreground font-semibold text-sm hover:brightness-110 transition-all glow-accent">
-        Send Inquiry
+      <button type="submit" disabled={loading}
+        className="w-full px-6 py-3 rounded-lg bg-accent text-accent-foreground font-semibold text-sm hover:brightness-110 transition-all glow-accent disabled:opacity-50">
+        {loading ? "Sending..." : "Send Inquiry"}
       </button>
     </form>
   );

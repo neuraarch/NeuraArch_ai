@@ -1,15 +1,33 @@
 import { useState } from "react";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 
-const RegistrationForm = ({ eventTitle }: { eventTitle: string }) => {
+const RegistrationForm = ({ eventTitle, eventId }: { eventTitle: string; eventId?: string }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [level, setLevel] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name.trim() || !email.trim()) return;
+    if (!eventId) {
+      toast.error("Event not found");
+      return;
+    }
+    setLoading(true);
+    const { error } = await supabase.from("event_registrations").insert({
+      name: name.trim(),
+      email: email.trim(),
+      event_id: eventId,
+      experience_level: level || null,
+    });
+    setLoading(false);
+    if (error) {
+      toast.error("Something went wrong", { description: error.message });
+      return;
+    }
     setSubmitted(true);
     toast.success("Seat reserved!", { description: `You're registered for ${eventTitle}.` });
   };
@@ -39,9 +57,9 @@ const RegistrationForm = ({ eventTitle }: { eventTitle: string }) => {
         <option value="intermediate">Intermediate</option>
         <option value="advanced">Advanced</option>
       </select>
-      <button type="submit"
-        className="w-full px-6 py-3 rounded-lg bg-accent text-accent-foreground font-semibold text-sm hover:brightness-110 transition-all glow-accent">
-        Reserve My Seat
+      <button type="submit" disabled={loading}
+        className="w-full px-6 py-3 rounded-lg bg-accent text-accent-foreground font-semibold text-sm hover:brightness-110 transition-all glow-accent disabled:opacity-50">
+        {loading ? "Reserving..." : "Reserve My Seat"}
       </button>
     </form>
   );

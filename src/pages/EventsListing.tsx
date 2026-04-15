@@ -1,11 +1,29 @@
+import { useMemo } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import EventCard from "@/components/courses/EventCard";
-import { events } from "@/data/coursesData";
+import { useEvents } from "@/hooks/useSupabaseQueries";
+import { events as mockEvents } from "@/data/coursesData";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 const EventsListing = () => {
   const { ref, isVisible } = useScrollReveal();
+  const { data: dbEvents } = useEvents();
+
+  const events = useMemo(() => {
+    if (dbEvents && dbEvents.length > 0) {
+      return dbEvents.map((e) => ({
+        slug: e.slug,
+        title: e.title,
+        date: new Date(e.event_date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }),
+        time: new Date(e.event_date).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" }),
+        description: e.description || "",
+        takeaways: [] as string[],
+        speaker: { name: e.speaker_name || "NeuraArch Team", role: e.speaker_title || "", bio: "" },
+      }));
+    }
+    return mockEvents;
+  }, [dbEvents]);
 
   return (
     <div className="min-h-screen bg-background text-foreground">

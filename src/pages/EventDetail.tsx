@@ -2,14 +2,31 @@ import { useParams, Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import RegistrationForm from "@/components/forms/RegistrationForm";
-import { events } from "@/data/coursesData";
+import { useEventBySlug } from "@/hooks/useSupabaseQueries";
+import { events as mockEvents } from "@/data/coursesData";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
-import { Calendar, Clock, CheckCircle } from "lucide-react";
+import { Calendar, Clock } from "lucide-react";
 
 const EventDetail = () => {
   const { slug } = useParams();
-  const event = events.find((e) => e.slug === slug);
+  const { data: dbEvent } = useEventBySlug(slug);
   const { ref, isVisible } = useScrollReveal();
+
+  // Use DB event or fallback to mock
+  const mockEvent = mockEvents.find((e) => e.slug === slug);
+  const event = dbEvent
+    ? {
+        id: dbEvent.id,
+        title: dbEvent.title,
+        date: new Date(dbEvent.event_date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }),
+        time: new Date(dbEvent.event_date).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" }),
+        description: dbEvent.description || "",
+        takeaways: [] as string[],
+        speaker: { name: dbEvent.speaker_name || "NeuraArch Team", role: dbEvent.speaker_title || "" },
+      }
+    : mockEvent
+    ? { ...mockEvent, id: undefined as string | undefined }
+    : null;
 
   if (!event) {
     return (
@@ -38,14 +55,18 @@ const EventDetail = () => {
             </div>
             <p className="text-muted-foreground text-lg mb-10">{event.description}</p>
 
-            <h2 className="font-heading text-xl font-bold mb-4">Key Takeaways</h2>
-            <ul className="space-y-3 mb-10">
-              {event.takeaways.map((t) => (
-                <li key={t} className="flex items-start gap-3 text-muted-foreground">
-                  <CheckCircle size={18} className="text-primary mt-0.5 shrink-0" /> {t}
-                </li>
-              ))}
-            </ul>
+            {event.takeaways.length > 0 && (
+              <>
+                <h2 className="font-heading text-xl font-bold mb-4">Key Takeaways</h2>
+                <ul className="space-y-3 mb-10">
+                  {event.takeaways.map((t) => (
+                    <li key={t} className="flex items-start gap-3 text-muted-foreground">
+                      <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary shrink-0" /> {t}
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
 
             <h2 className="font-heading text-xl font-bold mb-4">Speaker</h2>
             <div className="flex items-center gap-4 p-5 rounded-xl border border-border bg-card">
@@ -62,7 +83,7 @@ const EventDetail = () => {
           <aside>
             <div className="rounded-xl border border-border bg-card p-6 sticky top-24">
               <h3 className="font-heading text-lg font-bold mb-4">Reserve Your Seat</h3>
-              <RegistrationForm eventTitle={event.title} />
+              <RegistrationForm eventTitle={event.title} eventId={event.id} />
             </div>
           </aside>
         </div>

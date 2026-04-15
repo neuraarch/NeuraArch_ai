@@ -4,14 +4,34 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import PostCard from "@/components/content/PostCard";
 import TagChip from "@/components/content/TagChip";
-import { posts } from "@/data/mockData";
+import { usePosts } from "@/hooks/useSupabaseQueries";
+import { posts as mockPosts } from "@/data/mockData";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
+import { useMemo } from "react";
 
 const allTags = ["All", "RAG", "Agents", "Embeddings", "Evaluation", "Vector DB", "Architecture", "Safety"];
 
 const PostsFeed = () => {
   const [activeTag, setActiveTag] = useState("All");
   const { ref, isVisible } = useScrollReveal(0.05);
+  const { data: dbPosts } = usePosts();
+
+  const posts = useMemo(() => {
+    if (dbPosts && dbPosts.length > 0) {
+      return dbPosts.map((p) => ({
+        slug: p.id,
+        headline: p.headline,
+        preview: p.preview || "",
+        content: (p.content as unknown as any[]) || [],
+        tags: [] as string[],
+        author: "NeuraArch",
+        date: new Date(p.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }),
+        likes: 0,
+        youtubeId: p.youtube_id || undefined,
+      }));
+    }
+    return mockPosts;
+  }, [dbPosts]);
 
   const filtered = activeTag === "All" ? posts : posts.filter((p) => p.tags.includes(activeTag));
 
