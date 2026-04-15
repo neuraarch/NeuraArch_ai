@@ -9,6 +9,7 @@ import CourseSpotlight from "@/components/CourseSpotlight";
 import PopularContent from "@/components/PopularContent";
 import Newsletter from "@/components/Newsletter";
 import Footer from "@/components/Footer";
+import StickyCTA from "@/components/StickyCTA";
 
 const Index = () => (
   <div className="min-h-screen bg-background text-foreground scroll-smooth">
@@ -23,6 +24,7 @@ const Index = () => (
     <PopularContent />
     <Newsletter />
     <Footer />
+    <StickyCTA />
   </div>
 );
 

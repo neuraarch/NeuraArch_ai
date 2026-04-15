@@ -8,6 +8,10 @@ import BlogListing from "./pages/BlogListing.tsx";
 import BlogDetail from "./pages/BlogDetail.tsx";
 import PostsFeed from "./pages/PostsFeed.tsx";
 import PostDetail from "./pages/PostDetail.tsx";
+import CoursesListing from "./pages/CoursesListing.tsx";
+import CourseDetail from "./pages/CourseDetail.tsx";
+import EventsListing from "./pages/EventsListing.tsx";
+import EventDetail from "./pages/EventDetail.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -24,6 +28,10 @@ const App = () => (
           <Route path="/blog/:slug" element={<BlogDetail />} />
           <Route path="/posts" element={<PostsFeed />} />
           <Route path="/posts/:slug" element={<PostDetail />} />
+          <Route path="/courses" element={<CoursesListing />} />
+          <Route path="/courses/:slug" element={<CourseDetail />} />
+          <Route path="/events" element={<EventsListing />} />
+          <Route path="/events/:slug" element={<EventDetail />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
