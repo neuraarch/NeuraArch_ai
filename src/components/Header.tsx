@@ -7,8 +7,8 @@ const navItems = [
   { label: "Learning Paths", href: "/#learning-paths" },
   { label: "Tutorials", href: "/blog" },
   { label: "Insights", href: "/posts" },
-  { label: "Events", href: "/#events" },
-  { label: "Course", href: "/#course" },
+  { label: "Courses", href: "/courses" },
+  { label: "Events", href: "/events" },
 ];
 
 const Header = () => {
