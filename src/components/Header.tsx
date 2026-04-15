@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, LogIn, LogOut, User } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 import logo from "@/assets/logo.png";
 
 const navItems = [
@@ -15,6 +16,7 @@ const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
+  const { user, signOut } = useAuth();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -38,21 +40,15 @@ const Header = () => {
         <nav className="hidden md:flex items-center gap-8">
           {navItems.map((item) =>
             isExternal(item.href) ? (
-              <a
-                key={item.label}
-                href={item.href}
-                className="text-sm text-muted-foreground hover:text-primary transition-colors"
-              >
+              <a key={item.label} href={item.href}
+                className="text-sm text-muted-foreground hover:text-primary transition-colors">
                 {item.label}
               </a>
             ) : (
-              <Link
-                key={item.label}
-                to={item.href}
+              <Link key={item.label} to={item.href}
                 className={`text-sm transition-colors ${
                   location.pathname.startsWith(item.href) ? "text-primary font-medium" : "text-muted-foreground hover:text-primary"
-                }`}
-              >
+                }`}>
                 {item.label}
               </Link>
             )
@@ -60,18 +56,31 @@ const Header = () => {
         </nav>
 
         <div className="hidden md:flex items-center gap-3">
-          <a
-            href="/#newsletter"
-            className="px-4 py-2 text-sm font-medium rounded-lg bg-accent text-accent-foreground hover:brightness-110 transition-all hover:shadow-[0_0_20px_hsl(24,85%,55%,0.3)]"
-          >
-            Join Waitlist
-          </a>
+          {user ? (
+            <>
+              <span className="text-xs text-muted-foreground flex items-center gap-1.5">
+                <User size={14} /> {user.email?.split("@")[0]}
+              </span>
+              <button onClick={signOut}
+                className="px-3 py-2 text-sm text-muted-foreground hover:text-primary transition-colors flex items-center gap-1.5">
+                <LogOut size={14} /> Sign Out
+              </button>
+            </>
+          ) : (
+            <>
+              <Link to="/login"
+                className="px-3 py-2 text-sm text-muted-foreground hover:text-primary transition-colors flex items-center gap-1.5">
+                <LogIn size={14} /> Sign In
+              </Link>
+              <a href="/#newsletter"
+                className="px-4 py-2 text-sm font-medium rounded-lg bg-accent text-accent-foreground hover:brightness-110 transition-all hover:shadow-[0_0_20px_hsl(24,85%,55%,0.3)]">
+                Join Waitlist
+              </a>
+            </>
+          )}
         </div>
 
-        <button
-          className="md:hidden text-foreground"
-          onClick={() => setMobileOpen(!mobileOpen)}
-        >
+        <button className="md:hidden text-foreground" onClick={() => setMobileOpen(!mobileOpen)}>
           {mobileOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
@@ -81,31 +90,36 @@ const Header = () => {
           <nav className="container mx-auto px-4 py-4 flex flex-col gap-3">
             {navItems.map((item) =>
               isExternal(item.href) ? (
-                <a
-                  key={item.label}
-                  href={item.href}
+                <a key={item.label} href={item.href}
                   className="text-sm text-muted-foreground hover:text-primary py-2"
-                  onClick={() => setMobileOpen(false)}
-                >
+                  onClick={() => setMobileOpen(false)}>
                   {item.label}
                 </a>
               ) : (
-                <Link
-                  key={item.label}
-                  to={item.href}
+                <Link key={item.label} to={item.href}
                   className="text-sm text-muted-foreground hover:text-primary py-2"
-                  onClick={() => setMobileOpen(false)}
-                >
+                  onClick={() => setMobileOpen(false)}>
                   {item.label}
                 </Link>
               )
             )}
-            <a
-              href="/#newsletter"
-              className="mt-2 px-4 py-2 text-sm font-medium rounded-lg bg-accent text-accent-foreground text-center"
-            >
-              Join Waitlist
-            </a>
+            {user ? (
+              <button onClick={() => { signOut(); setMobileOpen(false); }}
+                className="mt-2 px-4 py-2 text-sm text-muted-foreground text-left">
+                Sign Out
+              </button>
+            ) : (
+              <>
+                <Link to="/login" className="text-sm text-muted-foreground hover:text-primary py-2"
+                  onClick={() => setMobileOpen(false)}>
+                  Sign In
+                </Link>
+                <a href="/#newsletter"
+                  className="mt-2 px-4 py-2 text-sm font-medium rounded-lg bg-accent text-accent-foreground text-center">
+                  Join Waitlist
+                </a>
+              </>
+            )}
           </nav>
         </div>
       )}
