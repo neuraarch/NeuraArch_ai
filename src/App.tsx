@@ -16,6 +16,15 @@ import EventDetail from "./pages/EventDetail.tsx";
 import Login from "./pages/Login.tsx";
 import Signup from "./pages/Signup.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import AdminLayout from "./components/admin/AdminLayout.tsx";
+import AdminDashboard from "./pages/admin/AdminDashboard.tsx";
+import AdminArticles from "./pages/admin/AdminArticles.tsx";
+import AdminArticleEditor from "./pages/admin/AdminArticleEditor.tsx";
+import AdminPosts from "./pages/admin/AdminPosts.tsx";
+import AdminCourses from "./pages/admin/AdminCourses.tsx";
+import AdminEvents from "./pages/admin/AdminEvents.tsx";
+import AdminLeads from "./pages/admin/AdminLeads.tsx";
+import AdminComments from "./pages/admin/AdminComments.tsx";
 
 const queryClient = new QueryClient();
 
@@ -38,6 +47,16 @@ const App = () => (
             <Route path="/events/:slug" element={<EventDetail />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/admin" element={<AdminLayout />}>
+              <Route index element={<AdminDashboard />} />
+              <Route path="articles" element={<AdminArticles />} />
+              <Route path="articles/:id" element={<AdminArticleEditor />} />
+              <Route path="posts" element={<AdminPosts />} />
+              <Route path="courses" element={<AdminCourses />} />
+              <Route path="events" element={<AdminEvents />} />
+              <Route path="leads" element={<AdminLeads />} />
+              <Route path="comments" element={<AdminComments />} />
+            </Route>
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
