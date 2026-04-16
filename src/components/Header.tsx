@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import { Menu, X, LogIn, LogOut, User } from "lucide-react";
+import { Menu, X, LogIn, LogOut, User, Settings } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 import logo from "@/assets/logo.png";
 
 const navItems = [
@@ -15,8 +16,16 @@ const navItems = [
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const location = useLocation();
   const { user, signOut } = useAuth();
+
+  useEffect(() => {
+    if (!user) { setIsAdmin(false); return; }
+    supabase.rpc("has_role", { _user_id: user.id, _role: "admin" }).then(({ data }) => {
+      setIsAdmin(!!data);
+    });
+  }, [user]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -58,6 +67,12 @@ const Header = () => {
         <div className="hidden md:flex items-center gap-3">
           {user ? (
             <>
+              {isAdmin && (
+                <Link to="/admin"
+                  className="px-3 py-2 text-sm font-medium text-primary hover:text-primary/80 transition-colors flex items-center gap-1.5">
+                  <Settings size={14} /> Admin CMS
+                </Link>
+              )}
               <span className="text-xs text-muted-foreground flex items-center gap-1.5">
                 <User size={14} /> {user.email?.split("@")[0]}
               </span>
@@ -104,10 +119,18 @@ const Header = () => {
               )
             )}
             {user ? (
-              <button onClick={() => { signOut(); setMobileOpen(false); }}
-                className="mt-2 px-4 py-2 text-sm text-muted-foreground text-left">
-                Sign Out
-              </button>
+              <>
+                {isAdmin && (
+                  <Link to="/admin" className="text-sm text-primary font-medium hover:text-primary/80 py-2 flex items-center gap-1.5"
+                    onClick={() => setMobileOpen(false)}>
+                    <Settings size={14} /> Admin CMS
+                  </Link>
+                )}
+                <button onClick={() => { signOut(); setMobileOpen(false); }}
+                  className="mt-2 px-4 py-2 text-sm text-muted-foreground text-left">
+                  Sign Out
+                </button>
+              </>
             ) : (
               <>
                 <Link to="/login" className="text-sm text-muted-foreground hover:text-primary py-2"
