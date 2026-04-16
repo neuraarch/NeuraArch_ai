@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { useNavigate, Outlet } from "react-router-dom";
+import { useNavigate, Outlet, Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import AdminSidebar from "./AdminSidebar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { Loader2 } from "lucide-react";
+import { Loader2, Home } from "lucide-react";
 
 const AdminLayout = () => {
   const { user, loading: authLoading } = useAuth();
@@ -42,6 +42,9 @@ const AdminLayout = () => {
           <header className="h-14 flex items-center border-b border-border px-4 bg-card/50 backdrop-blur-sm sticky top-0 z-10">
             <SidebarTrigger className="mr-4" />
             <span className="text-sm text-muted-foreground font-mono">NeuraArch CMS</span>
+            <Link to="/" className="ml-auto text-sm text-muted-foreground hover:text-primary transition-colors flex items-center gap-1.5">
+              <Home size={14} /> Home Page
+            </Link>
           </header>
           <main className="flex-1 p-6 overflow-auto">
             <Outlet />
