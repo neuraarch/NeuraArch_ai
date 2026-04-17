@@ -1,19 +1,23 @@
+import { Link } from "react-router-dom";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 const tutorials = [
   {
+    slug: "why-most-rag-systems-fail",
     title: "Why Most RAG Systems Fail",
     hook: "The #1 mistake engineers make when building retrieval pipelines",
     tags: ["RAG", "Architecture"],
     gradient: "from-red-500/20 to-primary/20",
   },
   {
+    slug: "similarity-is-not-relevance",
     title: "Similarity ≠ Relevance",
     hook: "Cosine similarity is lying to you. Here's what actually matters.",
     tags: ["Vector DB", "Evaluation"],
     gradient: "from-primary/20 to-blue-500/20",
   },
   {
+    slug: "stop-searching-for-words",
     title: "Stop Searching for Words",
     hook: "Semantic search is the new paradigm — and you're not using it right.",
     tags: ["Embeddings", "Search"],
@@ -38,9 +42,10 @@ const Tutorials = () => {
 
         <div className="grid md:grid-cols-3 gap-6">
           {tutorials.map((t, i) => (
-            <div
+            <Link
+              to={`/blog/${t.slug}`}
               key={t.title}
-              className={`group cursor-pointer rounded-xl bg-card border border-border overflow-hidden glow-card hover:glow-card-hover hover:-translate-y-1 transition-all duration-300 ${
+              className={`group cursor-pointer rounded-xl bg-card border border-border overflow-hidden glow-card hover:glow-card-hover hover:-translate-y-1 transition-all duration-300 block ${
                 isVisible ? "animate-fade-up" : "opacity-0"
               }`}
               style={{ animationDelay: `${(i + 1) * 150}ms` }}
@@ -65,7 +70,7 @@ const Tutorials = () => {
                 </h3>
                 <p className="text-sm text-muted-foreground">{t.hook}</p>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
