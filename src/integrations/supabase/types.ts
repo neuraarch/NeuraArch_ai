@@ -403,6 +403,90 @@ export type Database = {
         }
         Relationships: []
       }
+      learning_path_tutorials: {
+        Row: {
+          article_id: string
+          created_at: string
+          duration: string | null
+          id: string
+          learning_path_id: string
+          order_index: number
+        }
+        Insert: {
+          article_id: string
+          created_at?: string
+          duration?: string | null
+          id?: string
+          learning_path_id: string
+          order_index?: number
+        }
+        Update: {
+          article_id?: string
+          created_at?: string
+          duration?: string | null
+          id?: string
+          learning_path_id?: string
+          order_index?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "learning_path_tutorials_article_id_fkey"
+            columns: ["article_id"]
+            isOneToOne: false
+            referencedRelation: "articles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "learning_path_tutorials_learning_path_id_fkey"
+            columns: ["learning_path_id"]
+            isOneToOne: false
+            referencedRelation: "learning_paths"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      learning_paths: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          intro_video_id: string | null
+          level: string
+          slug: string
+          tags: string[] | null
+          thumbnail_url: string | null
+          title: string
+          updated_at: string
+          what_you_learn: string[] | null
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          intro_video_id?: string | null
+          level?: string
+          slug: string
+          tags?: string[] | null
+          thumbnail_url?: string | null
+          title: string
+          updated_at?: string
+          what_you_learn?: string[] | null
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          intro_video_id?: string | null
+          level?: string
+          slug?: string
+          tags?: string[] | null
+          thumbnail_url?: string | null
+          title?: string
+          updated_at?: string
+          what_you_learn?: string[] | null
+        }
+        Relationships: []
+      }
       newsletter: {
         Row: {
           created_at: string
