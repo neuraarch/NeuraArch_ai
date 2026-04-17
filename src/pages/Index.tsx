@@ -12,7 +12,13 @@ import Footer from "@/components/Footer";
 import StickyCTA from "@/components/StickyCTA";
 
 const Index = () => (
-  <div className="min-h-screen bg-background text-foreground scroll-smooth">
+  <div className="relative min-h-screen bg-background text-foreground scroll-smooth overflow-hidden">
+    {/* Ambient background orbs */}
+    <div aria-hidden className="pointer-events-none fixed inset-0 -z-10">
+      <div className="bg-orb top-[-10%] left-[-5%] w-[500px] h-[500px] bg-primary/10 animate-float-slow" />
+      <div className="bg-orb top-[40%] right-[-10%] w-[600px] h-[600px] bg-accent/10 animate-float-slow [animation-delay:-4s]" />
+      <div className="bg-orb bottom-[-10%] left-[20%] w-[500px] h-[500px] bg-tertiary/10 animate-float-slow [animation-delay:-8s]" />
+    </div>
     <Header />
     <HeroSection />
     <LearningPaths />
