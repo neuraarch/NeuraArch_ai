@@ -10,10 +10,10 @@ const links = [
 ];
 
 const socials = [
-  { label: "YouTube", href: "https://youtube.com" },
-  { label: "Twitter", href: "https://twitter.com" },
-  { label: "LinkedIn", href: "https://linkedin.com" },
-  { label: "GitHub", href: "https://github.com" },
+  { label: "YouTube", href: "https://www.youtube.com/channel/UCRvZk5TgxS6BVi48_YD7nrA" },
+  { label: "X", href: "https://x.com/NeuraArch" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/company/neuraarch/" },
+  { label: "GitHub", href: "https://github.com/neuraarch/" },
 ];
 
 const Footer = () => (
@@ -25,7 +25,11 @@ const Footer = () => (
         </Link>
         <nav className="flex flex-wrap justify-center gap-6">
           {links.map((l) => (
-            <Link key={l.label} to={l.href} className="text-sm text-muted-foreground hover:text-primary transition-colors">
+            <Link
+              key={l.label}
+              to={l.href}
+              className="text-sm text-muted-foreground hover:text-primary transition-colors"
+            >
               {l.label}
             </Link>
           ))}
@@ -44,9 +48,7 @@ const Footer = () => (
           ))}
         </div>
       </div>
-      <p className="text-center text-xs text-muted-foreground mt-8">
-        © 2026 NeuraArch. All rights reserved.
-      </p>
+      <p className="text-center text-xs text-muted-foreground mt-8">© 2026 NeuraArch. All rights reserved.</p>
     </div>
   </footer>
 );
