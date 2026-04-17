@@ -1,18 +1,24 @@
 import { useState } from "react";
 
 interface CommentInputProps {
-  onSubmit: (text: string) => void;
+  onSubmit: (text: string) => void | Promise<void> | boolean | Promise<boolean>;
   placeholder?: string;
 }
 
 const CommentInput = ({ onSubmit, placeholder = "Add a comment..." }: CommentInputProps) => {
   const [text, setText] = useState("");
+  const [busy, setBusy] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!text.trim()) return;
-    onSubmit(text.trim());
-    setText("");
+    if (!text.trim() || busy) return;
+    setBusy(true);
+    try {
+      await onSubmit(text.trim());
+      setText("");
+    } finally {
+      setBusy(false);
+    }
   };
 
   return (
@@ -25,13 +31,15 @@ const CommentInput = ({ onSubmit, placeholder = "Add a comment..." }: CommentInp
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder={placeholder}
-          className="flex-1 bg-muted/50 border border-border rounded-lg px-4 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 transition-colors"
+          disabled={busy}
+          className="flex-1 bg-muted/50 border border-border rounded-lg px-4 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 transition-colors disabled:opacity-60"
         />
         <button
           type="submit"
-          className="px-4 py-2 text-sm font-medium rounded-lg bg-accent text-accent-foreground hover:brightness-110 transition-all"
+          disabled={busy || !text.trim()}
+          className="px-4 py-2 text-sm font-medium rounded-lg bg-accent text-accent-foreground hover:brightness-110 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Post
+          {busy ? "..." : "Post"}
         </button>
       </div>
     </form>
