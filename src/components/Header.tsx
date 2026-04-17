@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Menu, X, LogIn, LogOut, User, Settings } from "lucide-react";
+import { Menu, X, LogIn, LogOut, User, Settings, Search } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -65,6 +65,11 @@ const Header = () => {
         </nav>
 
         <div className="hidden md:flex items-center gap-3">
+          <Link to="/search"
+            aria-label="Search"
+            className="p-2 rounded-lg text-muted-foreground hover:text-primary hover:bg-muted/50 transition-all">
+            <Search size={16} />
+          </Link>
           {user ? (
             <>
               {isAdmin && (
@@ -103,6 +108,11 @@ const Header = () => {
       {mobileOpen && (
         <div className="md:hidden bg-background/95 backdrop-blur-xl border-b border-border">
           <nav className="container mx-auto px-4 py-4 flex flex-col gap-3">
+            <Link to="/search"
+              className="text-sm text-muted-foreground hover:text-primary py-2 flex items-center gap-1.5"
+              onClick={() => setMobileOpen(false)}>
+              <Search size={14} /> Search
+            </Link>
             {navItems.map((item) =>
               isExternal(item.href) ? (
                 <a key={item.label} href={item.href}
