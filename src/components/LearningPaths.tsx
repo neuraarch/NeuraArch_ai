@@ -1,20 +1,24 @@
+import { Link } from "react-router-dom";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 const paths = [
   {
     title: "AI Beginner Path",
+    slug: "ai-beginner",
     description: "Start with the foundations — embeddings, vector search, and your first RAG pipeline.",
     level: "Beginner",
     color: "text-green-400",
   },
   {
     title: "RAG Engineer Path",
+    slug: "rag-engineer",
     description: "Master retrieval-augmented generation, chunking strategies, and evaluation frameworks.",
     level: "Intermediate",
     color: "text-primary",
   },
   {
     title: "Agentic AI Path",
+    slug: "agentic-ai",
     description: "Build autonomous AI agents with tool use, planning, and multi-step reasoning.",
     level: "Advanced",
     color: "text-accent",
@@ -50,12 +54,12 @@ const LearningPaths = () => {
               </span>
               <h3 className="font-heading text-xl font-semibold mt-4 mb-2">{path.title}</h3>
               <p className="text-sm text-muted-foreground leading-relaxed mb-5">{path.description}</p>
-              <a
-                href="#"
+              <Link
+                to={`/learning-paths/${path.slug}`}
                 className="text-sm font-medium text-primary hover:text-accent transition-colors inline-flex items-center gap-1"
               >
                 Explore Path <span className="group-hover:translate-x-1 transition-transform">→</span>
-              </a>
+              </Link>
             </div>
           ))}
         </div>

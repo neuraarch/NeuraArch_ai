@@ -6,7 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import logo from "@/assets/logo.png";
 
 const navItems = [
-  { label: "Learning Paths", href: "/#learning-paths" },
+  { label: "Learning Paths", href: "/learning-paths" },
   { label: "Tutorials", href: "/blog" },
   { label: "Insights", href: "/posts" },
   { label: "Courses", href: "/courses" },

@@ -13,6 +13,8 @@ import CoursesListing from "./pages/CoursesListing.tsx";
 import CourseDetail from "./pages/CourseDetail.tsx";
 import EventsListing from "./pages/EventsListing.tsx";
 import EventDetail from "./pages/EventDetail.tsx";
+import LearningPathsListing from "./pages/LearningPathsListing.tsx";
+import LearningPathDetail from "./pages/LearningPathDetail.tsx";
 import About from "./pages/About.tsx";
 import Contact from "./pages/Contact.tsx";
 import SearchPage from "./pages/Search.tsx";
@@ -48,6 +50,8 @@ const App = () => (
             <Route path="/courses/:slug" element={<CourseDetail />} />
             <Route path="/events" element={<EventsListing />} />
             <Route path="/events/:slug" element={<EventDetail />} />
+            <Route path="/learning-paths" element={<LearningPathsListing />} />
+            <Route path="/learning-paths/:slug" element={<LearningPathDetail />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/search" element={<SearchPage />} />
