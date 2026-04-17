@@ -1,17 +1,21 @@
+import { Link } from "react-router-dom";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 const insights = [
   {
+    slug: "rag-is-not-a-product",
     headline: "RAG is not a product, it's an architecture pattern",
     preview: "Stop treating RAG as a feature toggle. It's a systems design decision that affects every layer of your stack.",
     tags: ["RAG", "Architecture"],
   },
   {
+    slug: "embeddings-are-lossy",
     headline: "The embedding model matters more than the LLM",
     preview: "Everyone obsesses over which GPT version to use. The real alpha is in your embedding choice.",
     tags: ["Embeddings", "Strategy"],
   },
   {
+    slug: "agents-need-guardrails",
     headline: "Agents without guardrails are just expensive chaos",
     preview: "Autonomy without constraints doesn't scale. Here's how I think about building safe agentic systems.",
     tags: ["Agents", "Safety"],
@@ -48,9 +52,9 @@ const Insights = () => {
               </div>
               <h3 className="font-heading text-base font-semibold mb-2">{item.headline}</h3>
               <p className="text-sm text-muted-foreground mb-4 flex-1">{item.preview}</p>
-              <a href="#" className="text-sm font-medium text-accent hover:brightness-125 transition-all">
+              <Link to={`/posts/${item.slug}`} className="text-sm font-medium text-accent hover:brightness-125 transition-all">
                 Read Insight →
-              </a>
+              </Link>
             </div>
           ))}
         </div>
