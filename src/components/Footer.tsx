@@ -1,11 +1,12 @@
+import { Link } from "react-router-dom";
 import logo from "@/assets/logo.png";
 
 const links = [
-  { label: "About", href: "#" },
-  { label: "Blog", href: "#" },
-  { label: "Courses", href: "#course" },
-  { label: "Events", href: "#events" },
-  { label: "Contact", href: "#" },
+  { label: "About", href: "/about" },
+  { label: "Blog", href: "/blog" },
+  { label: "Courses", href: "/courses" },
+  { label: "Events", href: "/events" },
+  { label: "Contact", href: "/contact" },
 ];
 
 const socials = [
@@ -19,14 +20,14 @@ const Footer = () => (
   <footer className="border-t border-border py-12">
     <div className="container mx-auto px-4 md:px-6">
       <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-        <a href="#" className="flex items-center">
+        <Link to="/" className="flex items-center">
           <img src={logo} alt="NeuraArch" className="h-8" />
-        </a>
+        </Link>
         <nav className="flex flex-wrap justify-center gap-6">
           {links.map((l) => (
-            <a key={l.label} href={l.href} className="text-sm text-muted-foreground hover:text-primary transition-colors">
+            <Link key={l.label} to={l.href} className="text-sm text-muted-foreground hover:text-primary transition-colors">
               {l.label}
-            </a>
+            </Link>
           ))}
         </nav>
         <div className="flex gap-4">
