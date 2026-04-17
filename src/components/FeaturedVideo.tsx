@@ -14,23 +14,17 @@ const FeaturedVideo = () => {
           >
             <iframe
               className="w-full h-full"
-              src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+              src="https://www.youtube.com/embed/6qFdIv2dn78"
               title="Featured Video"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
             />
           </div>
           <div
-            className={`lg:col-span-2 space-y-5 ${
-              isVisible ? "animate-fade-up [animation-delay:200ms]" : "opacity-0"
-            }`}
+            className={`lg:col-span-2 space-y-5 ${isVisible ? "animate-fade-up [animation-delay:200ms]" : "opacity-0"}`}
           >
-            <span className="text-xs font-semibold text-accent bg-accent/10 px-3 py-1 rounded-full">
-              Featured
-            </span>
-            <h3 className="font-heading text-2xl sm:text-3xl font-bold">
-              Building Production RAG from Scratch
-            </h3>
+            <span className="text-xs font-semibold text-accent bg-accent/10 px-3 py-1 rounded-full">Featured</span>
+            <h3 className="font-heading text-2xl sm:text-3xl font-bold">Building Production RAG from Scratch</h3>
             <ul className="space-y-3 text-sm text-muted-foreground">
               <li className="flex gap-2 items-start">
                 <span className="text-primary mt-0.5">▹</span>
