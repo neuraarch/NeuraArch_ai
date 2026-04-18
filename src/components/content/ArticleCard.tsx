@@ -9,21 +9,31 @@ interface ArticleCardProps {
   readTime: string;
   date: string;
   featured?: boolean;
+  coverImage?: string | null;
 }
 
-const ArticleCard = ({ slug, title, hook, tags, readTime, date, featured }: ArticleCardProps) => (
+const ArticleCard = ({ slug, title, hook, tags, readTime, date, featured, coverImage }: ArticleCardProps) => (
   <Link
     to={`/blog/${slug}`}
     className={`group block rounded-xl border border-border bg-card hover:border-primary/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_30px_hsl(187,80%,52%,0.08)] overflow-hidden ${
       featured ? "md:col-span-2 md:grid md:grid-cols-2" : ""
     }`}
   >
-    <div className="aspect-video bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center">
-      <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="hsl(var(--primary))" strokeWidth="1.5">
-          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-        </svg>
-      </div>
+    <div className="aspect-video bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center overflow-hidden">
+      {coverImage ? (
+        <img
+          src={coverImage}
+          alt={title}
+          loading="lazy"
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+        />
+      ) : (
+        <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="hsl(var(--primary))" strokeWidth="1.5">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+          </svg>
+        </div>
+      )}
     </div>
     <div className="p-5 space-y-3">
       <div className="flex flex-wrap gap-2">
