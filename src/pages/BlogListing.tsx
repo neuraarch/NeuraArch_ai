@@ -100,6 +100,7 @@ const BlogListing = () => {
         }),
         featured: a.featured || false,
         youtubeId: a.youtube_id || undefined,
+        coverImage: a.cover_image || undefined,
       }));
     }
     return mockArticles;
