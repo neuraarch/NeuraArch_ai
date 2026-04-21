@@ -57,7 +57,7 @@ describe("AdminArticleEditor", () => {
 
   it("renders new article editor when no id is provided", () => {
     render(
-      <MemoryRouter initialEntries={["/admin/articles/new"]}>
+      <MemoryRouter initialEntries={["/admin/articles/new"]} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <Routes>
           <Route path="/admin/articles/:id" element={<AdminArticleEditor />} />
         </Routes>
@@ -70,7 +70,7 @@ describe("AdminArticleEditor", () => {
 
   it("loads existing article data when editing", async () => {
     render(
-      <MemoryRouter initialEntries={["/admin/articles/1"]}>
+      <MemoryRouter initialEntries={["/admin/articles/1"]} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <Routes>
           <Route path="/admin/articles/:id" element={<AdminArticleEditor />} />
         </Routes>
@@ -87,7 +87,7 @@ describe("AdminArticleEditor", () => {
 
   it("handles saving functionality", async () => {
     render(
-      <MemoryRouter initialEntries={["/admin/articles/new"]}>
+      <MemoryRouter initialEntries={["/admin/articles/new"]} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <Routes>
           <Route path="/admin/articles/:id" element={<AdminArticleEditor />} />
         </Routes>
